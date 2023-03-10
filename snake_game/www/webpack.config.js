@@ -3,11 +3,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
     // entry files
-    entry: "./index.js",
+    entry: "./bootstrap.js",
     // output bundles (location)
     output: {
         path: path.resolve(__dirname, "public"),
-        filename: "index.js"
+        filename: "bootstrap.js"
     },
     // bundling mode
     mode: "development",
