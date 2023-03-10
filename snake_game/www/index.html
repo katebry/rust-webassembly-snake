@@ -3,10 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .canvas-wrapper {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
 </head>
 <body>
-<h1>Hello world</h1>
-    <script type="module" src="./bootstrap.js">
-    </script>
+<div class="canvas-wrapper">
+    Here's the canvas....
+    <canvas id="snake-canvas"></canvas>
+</div>
+<script type="module" src="./bootstrap.js">
+</script>
 </body>
 </html>
