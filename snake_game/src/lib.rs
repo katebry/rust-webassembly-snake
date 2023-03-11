@@ -40,4 +40,9 @@ impl World {
     pub fn snake_index(&self) -> usize {
         self.snake.body[0].0
     }
+
+    pub fn update(&mut self) {
+        let snake_index = self.snake_index();
+        self.snake.body[0].0 = snake_index + 1;
+    }
 }
