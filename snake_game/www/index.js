@@ -1,7 +1,7 @@
 import init, {World} from "snake_game"
 
 init().then(_ => {
-    const CELL_SIZE = 10;
+    const CELL_SIZE = 30;
     const canvas = document.getElementById("snake-canvas");
     const context = canvas.getContext("2d");
     // from Rust
@@ -28,4 +28,5 @@ init().then(_ => {
     }
 
     drawWorld();
+    console.log(world.snake_index())
 })
