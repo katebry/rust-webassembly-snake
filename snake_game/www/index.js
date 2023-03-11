@@ -27,6 +27,22 @@ init().then(_ => {
         context.stroke();
     }
 
+    function drawSnake() {
+        const snakeIndex = world.snake_index();
+        const col = snakeIndex % width;
+        const row = Math.floor(snakeIndex / width);
+
+        context.beginPath();
+        context.fillRect(
+            col * CELL_SIZE,
+            row * CELL_SIZE,
+            CELL_SIZE,
+            CELL_SIZE,
+        );
+        context.stroke();
+    }
+
     drawWorld();
+    drawSnake();
     console.log(world.snake_index())
 })
