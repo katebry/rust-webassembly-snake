@@ -43,6 +43,6 @@ impl World {
 
     pub fn update(&mut self) {
         let snake_index = self.snake_index();
-        self.snake.body[0].0 = snake_index + 1;
+        self.snake.body[0].0 = (snake_index + 1) % (self.width * self.width);
     }
 }
