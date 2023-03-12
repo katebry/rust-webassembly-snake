@@ -42,14 +42,20 @@ init().then(_ => {
         context.stroke();
     }
 
-    drawWorld();
-    drawSnake();
-
-    setInterval(() => {
-        context.clearRect(0, 0, canvas.width, canvas.height);
+    function paintCanvas() {
         drawWorld();
         drawSnake();
-        world.update();
-        console.log("updating...")
-    }, 100)
+    }
+
+    function update() {
+        setTimeout(() => {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            world.update();
+            paintCanvas();
+            requestAnimationFrame(update);
+        }, 100)
+    }
+
+    paintCanvas();
+    update();
 })
