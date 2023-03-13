@@ -2,7 +2,7 @@ import init, {World} from "snake_game"
 
 init().then(_ => {
     const CELL_SIZE = 30;
-    const canvas = document.getElementById("snake-canvas");
+    const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
     const context = canvas.getContext("2d");
     // from Rust
     const world = World.new();
