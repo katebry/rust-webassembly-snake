@@ -2,11 +2,15 @@ import init, {World} from "snake_game"
 
 init().then(_ => {
     const CELL_SIZE = 30;
+    const WORLD_WIDTH = 8;
+    const snakeSpawnIndex = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
+
+    // from Rust
+    const world = World.new(WORLD_WIDTH, snakeSpawnIndex);
+    const width = world.width();
+
     const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
     const context = canvas.getContext("2d");
-    // from Rust
-    const world = World.new();
-    const width = world.width();
 
     canvas.height = width * CELL_SIZE;
     canvas.width = width * CELL_SIZE;
@@ -48,12 +52,13 @@ init().then(_ => {
     }
 
     function update() {
+        const fps = 3;
         setTimeout(() => {
             context.clearRect(0, 0, canvas.width, canvas.height);
             world.update();
             paintCanvas();
             requestAnimationFrame(update);
-        }, 100)
+        }, 1000 / fps)
     }
 
     paintCanvas();

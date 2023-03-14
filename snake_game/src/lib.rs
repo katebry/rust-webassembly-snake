@@ -4,16 +4,26 @@ use wee_alloc::WeeAlloc;
 #[global_allocator]
 static ALLOC: WeeAlloc = WeeAlloc::INIT;
 
+#[derive(PartialEq)]
+enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+
 struct SnakeCell(usize);
 
 struct Snake {
-    body: Vec<SnakeCell>
+    body: Vec<SnakeCell>,
+    direction: Direction,
 }
 
 impl Snake {
     fn new(spawn: usize) -> Snake {
         Snake {
-            body: vec!(SnakeCell(spawn))
+            body: vec!(SnakeCell(spawn)),
+            direction: Direction::Right,
         }
     }
 }
@@ -27,12 +37,11 @@ pub struct World {
 
 #[wasm_bindgen]
 impl World {
-    pub fn new() -> World {
-        let width = 8;
+    pub fn new(width: usize, snake_spawn_index: usize) -> World {
         World {
             width,
             size: width * width,
-            snake: Snake::new(10),
+            snake: Snake::new(snake_spawn_index),
         }
     }
 
@@ -46,6 +55,15 @@ impl World {
 
     pub fn update(&mut self) {
         let snake_index = self.snake_index();
-        self.snake.body[0].0 = (snake_index + 1) % self.size;
+        let row = snake_index / self.width;
+
+        if self.snake.direction == Direction::Right {
+            let next_col = (snake_index + 1) % self.width;
+            self.snake.body[0].0 = (row * self.width) + next_col;
+        }
+        if self.snake.direction == Direction::Left {
+            let next_col = (snake_index - 1) % self.width;
+            self.snake.body[0].0 = (row * self.width) + next_col;
+        }
     }
 }
