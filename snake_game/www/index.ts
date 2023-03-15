@@ -1,6 +1,7 @@
 import init, {World, Direction} from "snake_game"
 
-init().then(_ => {
+init().then(wasm => {
+
     const CELL_SIZE = 30;
     const WORLD_WIDTH = 8;
     const snakeSpawnIndex = Date.now() % (WORLD_WIDTH * WORLD_WIDTH);
@@ -9,14 +10,14 @@ init().then(_ => {
     const world = World.new(WORLD_WIDTH, snakeSpawnIndex);
     const width = world.width();
 
-    const canvas = <HTMLCanvasElement> document.getElementById("snake-canvas");
+    const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
     const context = canvas.getContext("2d");
 
     canvas.height = width * CELL_SIZE;
     canvas.width = width * CELL_SIZE;
 
     document.addEventListener("keydown", (event) => {
-        switch(event.code) {
+        switch (event.code) {
             case "ArrowUp":
                 world.change_snake_direction(Direction.Up)
                 break;
@@ -49,17 +50,24 @@ init().then(_ => {
     }
 
     function drawSnake() {
-        const snakeIndex = world.snake_index();
-        const col = snakeIndex % width;
-        const row = Math.floor(snakeIndex / width);
-
-        context.beginPath();
-        context.fillRect(
-            col * CELL_SIZE,
-            row * CELL_SIZE,
-            CELL_SIZE,
-            CELL_SIZE,
+        const snakeCells = new Uint32Array(
+            wasm.memory.buffer,
+            world.snake_cells(),
+            world.snake_length()
         );
+
+        snakeCells.forEach((cellIndex) => {
+            const col = cellIndex % width;
+            const row = Math.floor(cellIndex / width);
+
+            context.beginPath();
+            context.fillRect(
+                col * CELL_SIZE,
+                row * CELL_SIZE,
+                CELL_SIZE,
+                CELL_SIZE,
+            );
+        })
         context.stroke();
     }
 
