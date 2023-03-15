@@ -6,7 +6,7 @@ static ALLOC: WeeAlloc = WeeAlloc::INIT;
 
 #[wasm_bindgen(module = "/www/utils/random.js")]
 extern {
-    fn random(number: usize) -> usize;
+    fn random(max: usize) -> usize;
 }
 
 #[wasm_bindgen]
@@ -18,7 +18,7 @@ pub enum Direction {
     Right,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq)]
 pub struct SnakeCell(usize);
 
 struct Snake {
@@ -55,11 +55,18 @@ pub struct World {
 impl World {
     pub fn new(width: usize, snake_spawn_index: usize) -> World {
         let size = width * width;
-        let reward_cell = random(size);
+        let mut reward_cell;
+        let snake = Snake::new(snake_spawn_index, 3);
+
+        loop {
+            reward_cell = random(size);
+            if !snake.body.contains(&SnakeCell(reward_cell)) { break; }
+        };
+
         World {
             width,
             size,
-            snake: Snake::new(snake_spawn_index, 3),
+            snake,
             next_cell: None,
             reward_cell,
         }
