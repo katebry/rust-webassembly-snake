@@ -13,7 +13,7 @@ pub enum Direction {
     Right,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 pub struct SnakeCell(usize);
 
 struct Snake {
@@ -41,6 +41,8 @@ pub struct World {
     width: usize,
     size: usize,
     snake: Snake,
+    // Option can hold a value OR no value (so can be null... except not because Rust)
+    next_cell: Option<SnakeCell>,
 }
 
 #[wasm_bindgen]
@@ -50,6 +52,7 @@ impl World {
             width,
             size: width * width,
             snake: Snake::new(snake_spawn_index, 3),
+            next_cell: None,
         }
     }
 
@@ -64,10 +67,9 @@ impl World {
     pub fn change_snake_direction(&mut self, direction: Direction) {
         let next_cell = self.generate_next_snake_cell(&direction);
 
-        if self.snake.body[1].0 == next_cell.0 {
-            return;
-        }
+        if self.snake.body[1].0 == next_cell.0 { return; }
 
+        self.next_cell = Some(next_cell);
         self.snake.direction = direction
     }
 
@@ -81,8 +83,16 @@ impl World {
 
     pub fn update(&mut self) {
         let temp = self.snake.body.clone();
-        let next_cell = self.generate_next_snake_cell(&self.snake.direction);
-        self.snake.body[0] = next_cell;
+
+        match self.next_cell {
+            Some(cell) => {
+                self.snake.body[0] = cell;
+                self.next_cell = None;
+            }
+            None => {
+                self.snake.body[0] = self.generate_next_snake_cell(&self.snake.direction);
+            }
+        }
 
         let length = self.snake.body.len();
 
@@ -98,13 +108,13 @@ impl World {
         return match direction {
             Direction::Right => {
                 SnakeCell((row * self.width()) + (snake_index + 1) % self.width)
-            },
+            }
             Direction::Left => {
                 SnakeCell((row * self.width()) + (snake_index - 1) % self.width)
-            },
+            }
             Direction::Up => {
                 SnakeCell((snake_index - self.width()) % self.size)
-            },
+            }
             Direction::Down => {
                 SnakeCell((snake_index + self.width()) % self.size)
             }
