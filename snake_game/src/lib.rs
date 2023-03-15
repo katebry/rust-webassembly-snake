@@ -55,21 +55,25 @@ pub struct World {
 impl World {
     pub fn new(width: usize, snake_spawn_index: usize) -> World {
         let size = width * width;
-        let mut reward_cell;
         let snake = Snake::new(snake_spawn_index, 3);
-
-        loop {
-            reward_cell = random(size);
-            if !snake.body.contains(&SnakeCell(reward_cell)) { break; }
-        };
 
         World {
             width,
             size,
+            reward_cell: World::generate_reward_cell(size, &snake.body),
             snake,
             next_cell: None,
-            reward_cell,
         }
+    }
+
+    fn generate_reward_cell(max: usize, snake_body: &Vec<SnakeCell>) -> usize {
+        let mut reward_cell;
+        loop {
+            reward_cell = random(max);
+            if !snake_body.contains(&SnakeCell(reward_cell)) { break; }
+        };
+
+        reward_cell
     }
 
     pub fn width(&self) -> usize {
@@ -118,6 +122,11 @@ impl World {
 
         for i in 1..length {
             self.snake.body[i] = SnakeCell(temp[i - 1].0);
+        }
+
+        if self.reward_cell == self.snake_index() {
+            self.snake.body.push(SnakeCell(self.snake.body[1].0));
+            self.reward_cell = World::generate_reward_cell(self.size, &self.snake.body)
         }
     }
 
