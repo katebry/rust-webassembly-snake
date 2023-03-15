@@ -49,6 +49,24 @@ init().then(wasm => {
         context.stroke();
     }
 
+    function drawReward() {
+        const reward_index = world.reward_cell();
+        const col = reward_index % width;
+        const row = Math.floor(reward_index / width);
+
+        context.beginPath();
+        context.fillStyle = "#FF0000";
+
+        context.fillRect(
+            col * CELL_SIZE,
+            row * CELL_SIZE,
+            CELL_SIZE,
+            CELL_SIZE,
+        );
+
+        context.stroke();
+    }
+
     function drawSnake() {
         const snakeCells = new Uint32Array(
             wasm.memory.buffer,
@@ -75,6 +93,7 @@ init().then(wasm => {
 
     function paintCanvas() {
         drawWorld();
+        drawReward();
         drawSnake();
     }
 

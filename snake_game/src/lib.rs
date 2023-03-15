@@ -43,6 +43,7 @@ pub struct World {
     snake: Snake,
     // Option can hold a value OR no value (so can be null... except not because Rust)
     next_cell: Option<SnakeCell>,
+    reward_cell: usize,
 }
 
 #[wasm_bindgen]
@@ -53,6 +54,7 @@ impl World {
             size: width * width,
             snake: Snake::new(snake_spawn_index, 3),
             next_cell: None,
+            reward_cell: 10,
         }
     }
 
@@ -62,6 +64,10 @@ impl World {
 
     pub fn snake_index(&self) -> usize {
         self.snake.body[0].0
+    }
+
+    pub fn reward_cell(&self) -> usize {
+        self.reward_cell
     }
 
     pub fn change_snake_direction(&mut self, direction: Direction) {
