@@ -56,9 +56,11 @@ init().then(wasm => {
             world.snake_length()
         );
 
-        snakeCells.forEach((cellIndex) => {
+        snakeCells.forEach((cellIndex, i) => {
             const col = cellIndex % width;
             const row = Math.floor(cellIndex / width);
+
+            context.fillStyle = i === 0 ? "#7878db" : "#000000";
 
             context.beginPath();
             context.fillRect(
