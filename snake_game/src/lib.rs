@@ -132,7 +132,6 @@ impl World {
             }
 
             self.snake.body.push(SnakeCell(self.snake.body[1].0));
-            // self.reward_cell = World::generate_reward_cell(self.size, &self.snake.body)
         }
     }
 

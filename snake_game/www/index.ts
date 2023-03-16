@@ -7,7 +7,6 @@ init().then(wasm => {
     const WORLD_WIDTH = 8;
     const snakeSpawnIndex = random(WORLD_WIDTH * WORLD_WIDTH);
 
-    // from Rust
     const world = World.new(WORLD_WIDTH, snakeSpawnIndex);
     const width = world.width();
 
