@@ -9,7 +9,7 @@
     "build": "npm run build --prefix www"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kate Bryan",
   "license": "ISC",
   "dependencies": {
     "compression": "^1.7.4",
