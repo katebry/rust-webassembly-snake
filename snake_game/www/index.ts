@@ -22,7 +22,7 @@ init().then(wasm => {
         const status = world.get_game_status();
 
         if (status === undefined) {
-            gameControlBtn.textContent = "In game..."
+            gameControlBtn.textContent = "In game"
             world.start_game();
             play();
         } else {
