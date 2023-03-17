@@ -58,6 +58,7 @@ pub struct World {
     next_cell: Option<SnakeCell>,
     reward_cell: Option<usize>,
     status: Option<GameStatus>,
+    points: usize,
 }
 
 #[wasm_bindgen]
@@ -73,6 +74,7 @@ impl World {
             snake,
             next_cell: None,
             status: None,
+            points: 0,
         }
     }
 
@@ -92,6 +94,10 @@ impl World {
 
     pub fn start_game(&mut self) {
         self.status = Some(GameStatus::Played);
+    }
+
+    pub fn points(&self) -> usize {
+        self.points
     }
 
     pub fn get_game_status(&self) -> Option<GameStatus> {
@@ -160,6 +166,7 @@ impl World {
                 if self.reward_cell == Some(self.snake_index()) {
                     if self.snake_length() < self.size {
                         self.reward_cell = World::generate_reward_cell(self.size, &self.snake.body);
+                        self.points += 1;
                     } else {
                         self.reward_cell = None;
                         self.status = Some(GameStatus::Won);

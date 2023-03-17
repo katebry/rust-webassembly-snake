@@ -12,6 +12,7 @@ init().then(wasm => {
 
     const gameControlBtn = document.getElementById("game-control-btn");
     const gameStatusTag = document.getElementById("game-status");
+    const points = document.getElementById("points");
     const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
     const context = canvas.getContext("2d");
 
@@ -65,6 +66,9 @@ init().then(wasm => {
 
     function drawReward() {
         const reward_index = world.reward_cell();
+        const points_value = world.points();
+
+        points.textContent = points_value.toString();
         const col = reward_index % width;
         const row = Math.floor(reward_index / width);
 
