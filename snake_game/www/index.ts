@@ -18,8 +18,15 @@ init().then(wasm => {
     canvas.width = width * CELL_SIZE;
 
     gameControlBtn.addEventListener("click", _ => {
-        alert("Clicked!")
-        world.start_game();
+        const gameStatus = world.get_game_status();
+
+        if (gameStatus === undefined) {
+            gameControlBtn.textContent = "In game..."
+            world.start_game();
+            play();
+        } else {
+            location.reload();
+        }
     });
 
     document.addEventListener("keydown", (event) => {
@@ -103,16 +110,15 @@ init().then(wasm => {
         drawSnake();
     }
 
-    function update() {
-        const fps = 2;
+    function play() {
+        const fps = 3;
         setTimeout(() => {
             context.clearRect(0, 0, canvas.width, canvas.height);
             world.update();
             paintCanvas();
-            requestAnimationFrame(update);
+            requestAnimationFrame(play);
         }, 1000 / fps)
     }
 
     paintCanvas();
-    update();
 })
