@@ -18,6 +18,13 @@ pub enum Direction {
     Right,
 }
 
+#[wasm_bindgen]
+pub enum GameStatus {
+    Won,
+    Lost,
+    Played,
+}
+
 #[derive(Clone, Copy, PartialEq)]
 pub struct SnakeCell(usize);
 
@@ -49,6 +56,7 @@ pub struct World {
     // Option can hold a value OR no value (so can be null... except not because Rust)
     next_cell: Option<SnakeCell>,
     reward_cell: usize,
+    status: Option<GameStatus>,
 }
 
 #[wasm_bindgen]
@@ -63,6 +71,7 @@ impl World {
             reward_cell: World::generate_reward_cell(size, &snake.body),
             snake,
             next_cell: None,
+            status: None,
         }
     }
 
@@ -106,32 +115,37 @@ impl World {
     }
 
     pub fn update(&mut self) {
-        let temp = self.snake.body.clone();
+        match self.status {
+            Some(GameStatus::Played) => {
+                let temp = self.snake.body.clone();
 
-        match self.next_cell {
-            Some(cell) => {
-                self.snake.body[0] = cell;
-                self.next_cell = None;
+                match self.next_cell {
+                    Some(cell) => {
+                        self.snake.body[0] = cell;
+                        self.next_cell = None;
+                    }
+                    None => {
+                        self.snake.body[0] = self.generate_next_snake_cell(&self.snake.direction);
+                    }
+                }
+
+                let length = self.snake.body.len();
+
+                for i in 1..length {
+                    self.snake.body[i] = SnakeCell(temp[i - 1].0);
+                }
+
+                if self.reward_cell == self.snake_index() {
+                    if self.snake_length() < self.size {
+                        self.reward_cell = World::generate_reward_cell(self.size, &self.snake.body);
+                    } else {
+                        self.reward_cell = 1000;
+                    }
+
+                    self.snake.body.push(SnakeCell(self.snake.body[1].0));
+                }
             }
-            None => {
-                self.snake.body[0] = self.generate_next_snake_cell(&self.snake.direction);
-            }
-        }
-
-        let length = self.snake.body.len();
-
-        for i in 1..length {
-            self.snake.body[i] = SnakeCell(temp[i - 1].0);
-        }
-
-        if self.reward_cell == self.snake_index() {
-            if self.snake_length() < self.size {
-                self.reward_cell = World::generate_reward_cell(self.size, &self.snake.body);
-            } else {
-                self.reward_cell = 1000;
-            }
-
-            self.snake.body.push(SnakeCell(self.snake.body[1].0));
+            _ => {}
         }
     }
 
