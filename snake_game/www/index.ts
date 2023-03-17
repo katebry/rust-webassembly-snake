@@ -1,4 +1,4 @@
-import init, {World, Direction} from "snake_game";
+import init, {World, Direction, GameStatus} from "snake_game";
 import {random} from './utils/random';
 
 init().then(wasm => {
@@ -66,9 +66,8 @@ init().then(wasm => {
 
     function drawReward() {
         const reward_index = world.reward_cell();
-        const points_value = world.points();
 
-        points.textContent = points_value.toString();
+        points.textContent = world.points().toString();
         const col = reward_index % width;
         const row = Math.floor(reward_index / width);
 
@@ -110,7 +109,12 @@ init().then(wasm => {
     }
 
     function drawGameStatus() {
+        const status = world.get_game_status();
         gameStatusTag.textContent = world.game_status_text();
+
+        if (status == GameStatus.Won || status == GameStatus.Lost) {
+            gameControlBtn.textContent = "Replay?"
+        }
     }
 
     function paintCanvas() {
