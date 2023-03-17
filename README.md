@@ -4,7 +4,7 @@ This project was something I picked up during my time off between jobs.
 
 I've used a mixture of Rust paired with WebAssembly, Webpack, Vanilla Typescript, basic CSS and HTML plus Express (for deployment purposes). 🦀
 
-The goal was to get more familiar with Rust and how you can use it to make interactive web-based games.
+The goal was to get more familiar with Rust and to see how it can be used to make interactive web-based games.
 
 ----
 

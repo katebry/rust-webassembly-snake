@@ -10,7 +10,7 @@ const publicFolder = path.join(__dirname, "..", "www", "public");
 app.use(compression());
 app.use(express.static(publicFolder));
 
-app.get("*", (_, res) => {
+app.get("/", (_, res) => {
     res.sendFile("index.html")
 })
 
