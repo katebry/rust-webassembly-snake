@@ -89,6 +89,10 @@ impl World {
         self.width
     }
 
+    pub fn start_game(&mut self) {
+        self.status = Some(GameStatus::Played);
+    }
+
     pub fn snake_index(&self) -> usize {
         self.snake.body[0].0
     }

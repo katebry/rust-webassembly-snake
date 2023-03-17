@@ -10,11 +10,17 @@ init().then(wasm => {
     const world = World.new(WORLD_WIDTH, snakeSpawnIndex);
     const width = world.width();
 
+    const gameControlBtn = document.getElementById("game-control-btn");
     const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
     const context = canvas.getContext("2d");
 
     canvas.height = width * CELL_SIZE;
     canvas.width = width * CELL_SIZE;
+
+    gameControlBtn.addEventListener("click", _ => {
+        alert("Clicked!")
+        world.start_game();
+    });
 
     document.addEventListener("keydown", (event) => {
         switch (event.code) {
