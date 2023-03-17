@@ -16,6 +16,8 @@ Navigate to `localhost:8080` to see the game
 
 If you want to deploy an update, run the command `npm run build` within the `www` folder. This will generate new files in your `pkg` folder
 
+To run the Express server, `cd` into `snake_game` and run the command `npm run start`, then navigate to `localhost:3000`
+
 ----
 The app is deployed on Heroku and can be found here: 
 
