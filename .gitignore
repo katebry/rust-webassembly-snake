@@ -13,3 +13,6 @@ Cargo.lock
 # General
 .idea
 .DS_Store
+
+# For JS files
+**/node_modules
