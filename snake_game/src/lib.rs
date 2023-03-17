@@ -98,6 +98,15 @@ impl World {
         self.status
     }
 
+    pub fn game_status_text(&self) -> String {
+        match self.status {
+            Some(GameStatus::Won) => String::from("You have won the game!"),
+            Some(GameStatus::Lost) => String::from("You lost! :("),
+            Some(GameStatus::Played) => String::from("Game in progress..."),
+            None => String::from("Get ready to play")
+        }
+    }
+
     pub fn snake_index(&self) -> usize {
         self.snake.body[0].0
     }
