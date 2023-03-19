@@ -21,4 +21,4 @@ To run the Express server, `cd` into `snake_game` and run the command `npm run s
 ----
 The app is deployed on Heroku and can be found here: 
 
-// insert link
+https://snake-game-katebry.vercel.app/
