@@ -19,6 +19,6 @@ If you want to deploy an update, run the command `npm run build` within the `www
 To run the Express server, `cd` into `snake_game` and run the command `npm run start`, then navigate to `localhost:3000`
 
 ----
-The app is deployed on Heroku and can be found here: 
+The app is deployed on Vercel and can be found here: 
 
 https://snake-game-katebry.vercel.app/
