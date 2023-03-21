@@ -11,37 +11,42 @@
 
         * {
             font-family: 'Roboto Slab', serif;
+            font-size: 18px;
         }
-        .canvas-wrapper {
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            grid-column-gap: 0;
+            grid-row-gap: 0;
         }
 
         .game-panel {
-            margin-bottom: 20px;
+            grid-area: 2 / 2 / 5 / 5;
         }
 
-        .flex {
+        .wrapper {
             display: flex;
+            margin: 1em;
+            justify-content: center;
         }
 
         .label {
             font-weight: bold;
             margin-right: 10px;
         }
+
+        .canvas-wrapper {
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 <body>
-<div class="canvas-wrapper">
+<div class="grid">
     <div class="game-panel">
-        <div class="flex">
+        <div class="wrapper">
             <div class="label">
                 Status:
             </div>
@@ -49,24 +54,28 @@
                 None
             </div>
         </div>
-        <div class="flex">
+        <div class="wrapper">
+
             <div class="label">
                 Points:
             </div>
-            <div id="points">
-            </div>
+            <div id="points"></div>
         </div>
-        <div class="flex">
+        <div class="wrapper">
+
             <button id="game-control-btn">
                 Play
             </button>
         </div>
+        <div class="canvas-wrapper">
+            <canvas id="snake-canvas"></canvas>
+        </div>
+        <footer>
+            <div id="wcb" class="carbonbadge"></div>
+            <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
+        </footer>
     </div>
-    <canvas id="snake-canvas"></canvas>
-    <footer>
-        <div id="wcb" class="carbonbadge"></div>
-        <script src="https://unpkg.com/website-carbon-badges@1.1.3/b.min.js" defer></script>
-    </footer>
+
 </div>
 <script type="module" src="./bootstrap.js">
 </script>
